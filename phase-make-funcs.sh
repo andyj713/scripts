@@ -46,7 +46,8 @@ build_one(){
 			SVER=${SPROJ%.tar*}
 			echo "SVER=$SVER"
 			sudo rm -rf $BUILD/$PROJ$SVER
-			tar xf $SOURCE/$SRC
+			mkdir -p $BUILD/$PROJ$SVER
+			tar x -C $BUILD/$PROJ$SVER --strip-components 1 -f $SOURCE/$SRC
 			;;
 		lz)
 			SVER=${SPROJ%.tar*}
@@ -63,7 +64,5 @@ build_one(){
 	copy_tcz $EXT
 }
 
-sudo cp $BASE/la-files/* /usr/local/lib
-
-touch $STAGE/begin-time
+#sudo cp $BASE/la-files/* /usr/local/lib
 

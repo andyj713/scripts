@@ -9,11 +9,14 @@ EXT=lighttpd
 . $MEDIR/phase-default-init.sh
 
 DEPS="gdbm-dev cyrus-sasl-dev
-	attr-dev openldap-dev libxml2-dev sqlite3-dev"
+	attr-dev openldap-dev libxml2-dev sqlite3-dev
+	autoconf automake autogen"
 
 case $TCVER in
-        64-14 ) PGVER=15; SSLVER=-1.1.1; MDBVER=10.6 ; PCREVER=21032 ;;
-        32-14 ) PGVER=15; SSLVER=-1.1.1; MDBVER=10.6 ; PCREVER=2 ;;
+        64-15 ) PGVER=16; SSLVER=""; MDBVER=11.2 ; PCREVER=21042 ;;
+        32-15 ) PGVER=16; SSLVER=""; MDBVER=11.2 ; PCREVER=21042 ;;
+        64-14 ) PGVER=15; SSLVER=""; MDBVER=11.2 ; PCREVER=21042 ;;
+        32-14 ) PGVER=15; SSLVER=""; MDBVER=11.2 ; PCREVER=21042 ;;
         64-13 ) PGVER=14; SSLVER=-1.1.1; MDBVER=10.6 ; PCREVER=21032 ;;
         32-13 ) PGVER=14; SSLVER=-1.1.1; MDBVER=10.6 ; PCREVER=2 ;;
         64-12 ) PGVER=13; SSLVER=-1.1.1; MDBVER=10.5 ;;
@@ -25,6 +28,8 @@ case $TCVER in
         * ) PGVER=11; SSLVER=""; MDBVER=10.1 ;;
 esac
 DEPS="$DEPS openssl$SSLVER-dev postgresql-$PGVER-dev mariadb-$MDBVER-dev pcre$PCREVER-dev"
+
+./autogen.sh
 
 . $MEDIR/phase-default-deps.sh
 . $MEDIR/phase-default-cc-opts.sh

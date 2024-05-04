@@ -11,8 +11,10 @@ EXT=openldap
 DEPS="libltdl groff unixODBC-dev cyrus-sasl-dev libtool-dev perl5"
 
 case $TCVER in
-        64-14 ) DEPS="$DEPS openssl-1.1.1-dev" ;;
-        32-14 ) DEPS="$DEPS openssl-1.1.1-dev" ;;
+        64-15 ) DEPS="$DEPS openssl-dev" ;;
+        32-15 ) DEPS="$DEPS openssl-dev" ;;
+        64-14 ) DEPS="$DEPS openssl-dev" ;;
+        32-14 ) DEPS="$DEPS openssl-dev" ;;
         64-13 ) DEPS="$DEPS openssl-1.1.1-dev" ;;
         32-13 ) DEPS="$DEPS openssl-1.1.1-dev" ;;
         64-12 ) DEPS="$DEPS openssl-1.1.1-dev" ;;

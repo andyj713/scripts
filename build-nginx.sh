@@ -10,22 +10,24 @@ EXT=nginx
 
 DEPS="expat2-dev fontconfig-dev freetype-dev harfbuzz-dev libaio-dev
  libgd-dev libjpeg-turbo-dev libpng-dev libwebp1-dev libxml2-dev
- libxslt-dev pcre-dev zlib_base-dev"
+ libxslt-dev zlib_base-dev"
 
 case $TCVER in
-        64-14 ) DEPS="$DEPS openssl-1.1.1-dev giflib7-dev tiff-dev" ;;
-        32-14 ) DEPS="$DEPS openssl-1.1.1-dev giflib7-dev libtiff-dev" ;;
-        64-13 ) DEPS="$DEPS openssl-1.1.1-dev giflib7-dev tiff-dev" ;;
-        32-13 ) DEPS="$DEPS openssl-1.1.1-dev giflib7-dev libtiff-dev" ;;
-        64-12 ) DEPS="$DEPS openssl-1.1.1-dev giflib7-dev tiff-dev" ;;
-        32-12 ) DEPS="$DEPS openssl-1.1.1-dev giflib7-dev libtiff-dev" ;;
-        64-11 ) DEPS="$DEPS openssl-1.1.1-dev giflib7-dev tiff-dev" ;;
-        32-11 ) DEPS="$DEPS openssl-1.1.1-dev giflib7-dev libtiff-dev" ;;
-        64-10 ) DEPS="$DEPS openssl-1.1.1-dev giflib7-dev tiff-dev" ;;
-        32-10 ) DEPS="$DEPS openssl-1.1.1-dev giflib7-dev libtiff-dev" ;;
-        64-9 ) DEPS="$DEPS openssl-dev giflib-dev tiff-dev" ;;
-        32-9 ) DEPS="$DEPS openssl-dev giflib-dev libtiff-dev" ;;
-        * ) DEPS="$DEPS openssl-dev" ;;
+        64-15 ) DEPS="$DEPS pcre21042-dev openssl-dev giflib7-dev tiff-dev" ;;
+        32-15 ) DEPS="$DEPS pcre21042-dev openssl-dev giflib7-dev libtiff-dev" ;;
+        64-14 ) DEPS="$DEPS pcre-dev openssl-dev giflib7-dev tiff-dev" ;;
+        32-14 ) DEPS="$DEPS pcre-dev openssl-dev giflib7-dev libtiff-dev" ;;
+        64-13 ) DEPS="$DEPS pcre-dev openssl-1.1.1-dev giflib7-dev tiff-dev" ;;
+        32-13 ) DEPS="$DEPS pcre-dev openssl-1.1.1-dev giflib7-dev libtiff-dev" ;;
+        64-12 ) DEPS="$DEPS pcre-dev openssl-1.1.1-dev giflib7-dev tiff-dev" ;;
+        32-12 ) DEPS="$DEPS pcre-dev openssl-1.1.1-dev giflib7-dev libtiff-dev" ;;
+        64-11 ) DEPS="$DEPS pcre-dev openssl-1.1.1-dev giflib7-dev tiff-dev" ;;
+        32-11 ) DEPS="$DEPS pcre-dev openssl-1.1.1-dev giflib7-dev libtiff-dev" ;;
+        64-10 ) DEPS="$DEPS pcre-dev openssl-1.1.1-dev giflib7-dev tiff-dev" ;;
+        32-10 ) DEPS="$DEPS pcre-dev openssl-1.1.1-dev giflib7-dev libtiff-dev" ;;
+        64-9 ) DEPS="$DEPS pcre-dev openssl-dev giflib-dev tiff-dev" ;;
+        32-9 ) DEPS="$DEPS pcre-dev openssl-dev giflib-dev libtiff-dev" ;;
+        * ) DEPS="$DEPS pcre-dev openssl-dev" ;;
 esac
 
 . $MEDIR/phase-default-deps.sh

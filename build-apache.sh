@@ -9,12 +9,14 @@ EXT=$1$2
 . $MEDIR/phase-default-init.sh
 
 DEPS="apr-dev apr-util-dev openldap-dev libxml2-dev net-snmp-dev unixODBC-dev
- libgd-dev curl-dev libwebp1-dev gmp-dev
- cyrus-sasl-dev fontconfig-dev libXft-dev libnghttp2-dev xorg-server-dev perl5"
+	libgd-dev curl-dev libwebp1-dev gmp-dev
+	cyrus-sasl-dev fontconfig-dev libXft-dev libnghttp2-dev xorg-server-dev perl5"
 
 case $TCVER in
-	64-14 ) DEPS="$DEPS libvpx18-dev postgresql-15-dev enchant2-dev icu70-dev lua-5.3-dev" ;;
-	32-14 ) DEPS="$DEPS libvpx18-dev postgresql-15-dev enchant-dev icu70-dev lua-dev" ;;
+	64-15 ) DEPS="$DEPS libvpx18-dev postgresql-16-dev enchant2-dev pcre21042-dev icu74-dev lua-5.4-dev" ;;
+	32-15 ) DEPS="$DEPS libvpx18-dev postgresql-16-dev enchant2-dev pcre21042-dev icu70-dev lua-dev" ;;
+	64-14 ) DEPS="$DEPS libvpx18-dev postgresql-15-dev enchant2-dev icu74-dev lua-5.4-dev" ;;
+	32-14 ) DEPS="$DEPS libvpx18-dev postgresql-15-dev enchant2-dev icu70-dev lua-dev" ;;
 	64-13 ) DEPS="$DEPS libvpx18-dev postgresql-14-dev enchant2-dev icu67-dev lua-5.3-dev" ;;
 	32-13 ) DEPS="$DEPS libvpx18-dev postgresql-14-dev enchant-dev icu62-dev lua-dev" ;;
 	64-12 ) DEPS="$DEPS libvpx18-dev postgresql-13-dev enchant2-dev icu67-dev lua-5.3-dev" ;;
@@ -30,7 +32,7 @@ esac
 . $MEDIR/phase-default-deps.sh
 . $MEDIR/phase-default-cc-opts.sh
 
-export C_INCLUDE_PATH=/usr/local/include/lua5.2
+export C_INCLUDE_PATH=/usr/local/include/lua5.4:/usr/local/include/lua5.3
 
 # move run dir from /var/logs to /var/run
 for a in $(grep -I -r -l '_RUNTIMEDIR "/var/logs"' *)

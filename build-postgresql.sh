@@ -22,8 +22,10 @@ fi
 DEPS="libxml2-dev libxslt-dev gettext perl5 tzdata tcl8.6-dev"
 
 case $TCVER in
-        64-14 ) DEPS="$DEPS openssl-1.1.1-dev" ;;
-        32-14 ) DEPS="$DEPS openssl-1.1.1-dev" ;;
+        64-15 ) DEPS="$DEPS openssl-dev icu74-dev glibc_i18n_locale" ;;
+        32-15 ) DEPS="$DEPS openssl-dev icu70-dev glibc_i18n_locale" ;;
+        64-14 ) DEPS="$DEPS openssl-dev icu74-dev glibc_i18n_locale" ;;
+        32-14 ) DEPS="$DEPS openssl-dev icu70-dev glibc_i18n_locale" ;;
         64-13 ) DEPS="$DEPS openssl-1.1.1-dev" ;;
         32-13 ) DEPS="$DEPS openssl-1.1.1-dev" ;;
         64-12 ) DEPS="$DEPS openssl-1.1.1-dev" ;;
@@ -45,14 +47,14 @@ done
 ./configure \
 	--prefix=/usr/local/$PGDIR \
 	--localstatedir=/var \
-	--disable-rpath \
-	--with-openssl \
 	--with-uuid=e2fs \
 	--with-libxml \
 	--with-libxslt \
 	--with-perl \
 	--with-python \
 	--with-tcl \
+	--with-openssl \
+	--with-ssl=openssl \
 	--enable-nls \
 	--with-system-tzdata=/usr/local/share/zoneinfo \
 	|| exit
@@ -77,7 +79,7 @@ mv $TCZ/usr/local/$PGDIR/bin/pg_config $TCZ-dev/usr/local/$PGDIR/bin
 cp $TCZ/usr/local/$PGDIR/bin/psql $TCZ-client/usr/local/$PGDIR/bin
 cp -a $TCZ/usr/local/$PGDIR/lib/libpq.so* $TCZ-client/usr/local/$PGDIR/lib
 
-for x in '' '-dev' '-client'; do
+for x in '' '-client'; do
 mkdir -p $TCZ$x/usr/local/tce.installed
 cat << EOF > $TCZ$x/usr/local/tce.installed/$EXT$x
 #!/bin/sh

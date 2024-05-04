@@ -9,12 +9,15 @@ EXT=bind
 . $MEDIR/phase-default-init.sh
 
 
-DEPS="perl5 libuv-dev libcap-dev libpcap-dev readline-dev zlib_base-dev libnghttp2-dev"
+DEPS="perl5 libuv-dev libcap-dev libpcap-dev jemalloc-dev
+	readline-dev zlib_base-dev libnghttp2-dev"
 NOPY=""
 
 case $TCVER in
-	64-14 ) DEPS="$DEPS openssl-1.1.1-dev python3.6-dev python3.6-ply" ;;
-	32-14 ) DEPS="$DEPS openssl-1.1.1-dev python3.6-dev python3.6-ply" ;;
+	64-15 ) DEPS="$DEPS openssl-dev python3.9-dev py3.9-ply" ;;
+	32-15 ) DEPS="$DEPS openssl-dev python3.6-dev python3.6-ply" ;;
+	64-14 ) DEPS="$DEPS openssl-dev python3.9-dev py3.9-ply" ;;
+	32-14 ) DEPS="$DEPS openssl-dev python3.6-dev python3.6-ply" ;;
 	64-13 ) DEPS="$DEPS openssl-1.1.1-dev python3.6-dev python3.6-ply" ;;
 	32-13 ) DEPS="$DEPS openssl-1.1.1-dev python3.6-dev python3.6-ply" ;;
 	64-12 ) DEPS="$DEPS openssl-1.1.1-dev python3.6-dev python3.6-ply" ;;

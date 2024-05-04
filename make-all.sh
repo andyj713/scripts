@@ -25,22 +25,20 @@ echo -e "\n=====  build-libaio.sh =====\n"
 $PROD/build-libaio.sh
 copy_tcz libaio
 
-build_one nghttp2 libnghttp2
-
-for x in apr bind dhcp jemalloc libdnet libestr \
-		libzip libevent libfastjson liblogging \
-		libsodium libnet unixODBC 
+for x in apr jemalloc libdnet libestr libzip \
+	libevent libfastjson liblogging \
+	libsodium libnet unixODBC
 	do build_one $x
 done
 
-#build_one libwebp libwebp-nox
+build_one nghttp2 libnghttp2
 build_one onig libonig
 build_one tidy-html5 libtidy
 build_one cyrus-sasl cyrus-sasl-lite
-test "$KBITS" = "64" && build_one tzdb tzdata
+test "$KBITS" == "64" && build_one tzdb tzdata
+test "$KBITS" == "64" && build_one log4cplus 
 
-
-TCLVER=8.6.13
+TCLVER=8.6.14
 
 cd $BUILD
 sudo rm -rf $BUILD/tcl$TCLVER
@@ -54,11 +52,11 @@ copy_tcz tcl8.6
 ## tier 2
 
 
-for x in tcllib libgd liblognorm openldap
+for x in bind dhcp tcllib libgd liblognorm openldap
 	do build_one $x
 done
 
-for x in 15 14 13 12 11 10 9.6 9.5
+for x in 16 15 14 13 12
 	do build_one postgresql postgresql "-$x" "$x"
 done
 
@@ -108,20 +106,21 @@ for x in apr-util net-snmp
 	do build_one $x
 done
 
+test "$KBITS" == 64 && build_one kea
 
 ## tier 5
 
 
 build_one httpd apache "2.4"
 
-for x in rsyslog nginx lighttpd
+for x in nginx lighttpd
 	do build_one $x
 done
 
 
 # tier 6
 
-for x in 7.4 8.0 8.1 8.2
+for x in 8.1 8.2 8.3
 	do build_one php-$x
 done
 
@@ -149,9 +148,13 @@ copy_tcz gvim
 
 build_one open-vm-tools
 
+build_one libptytty
+
 build_one rxvt-unicode rxvt
 
 build_one iftop
+
+build_one rsyslog
 
 build_one xtables-addons xtables-addons "-$(uname -r)"
 

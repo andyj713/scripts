@@ -8,14 +8,14 @@ EXT=psqlodbc
 . $MEDIR/phase-default-vars.sh
 . $MEDIR/phase-default-init.sh
 
-DEPS="postgresql-10-dev postgresql-10 unixODBC-dev unixODBC"
+DEPS="postgresql-15-dev postgresql-15 unixODBC-dev unixODBC"
 
 . $MEDIR/phase-default-deps.sh
 . $MEDIR/phase-default-cc-opts.sh
 
 ./configure \
 	--with-unixodbc \
-	--with-libpq=/usr/local/pgsql96 \
+	--with-libpq=/usr/local/pgsql15 \
 	|| exit
 
 . $MEDIR/phase-default-make.sh

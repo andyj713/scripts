@@ -21,7 +21,7 @@ for PKG in jemalloc libevent libfastjson libgd lighttpd liblognorm tcllib apr-ut
 done
 
 
-for PGVER in 9.5 9.6 10 11 12 13 14 15; do
+for PGVER in 11 12 13 14 15 16; do
 	PKG=postgresql-$PGVER
 	build_dir $PKG
 	cd $SRC

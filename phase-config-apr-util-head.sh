@@ -1,0 +1,10 @@
+./configure \
+	--prefix=/usr/local \
+	--localstatedir=/var \
+	--with-apr=/usr/local \
+	--with-crypto \
+	--with-openssl \
+	--with-expat=/usr/local \
+	--with-gdbm \
+	--with-dbm=gdbm \
+	--without-berkeley-db \

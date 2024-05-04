@@ -6,9 +6,12 @@ MEDIR=${ME%/*}
 EXT=rxvt
 
 . $MEDIR/phase-default-vars.sh
-. $MEDIR/phase-default-init.sh
+#. $MEDIR/phase-default-init.sh
 
+#XP="--enable-transparency --enable-pixbuf"
 case "$RVER" in
+	9.31) DEPS="xorg-proto Xorg-7.7-dev fontconfig-dev libXft-dev ncursesw-utils" ; XP="--disable-transparency --disable-pixbuf" ;;
+	#9.31) DEPS="gdk-pixbuf2-dev xorg-proto Xorg-7.7-dev fontconfig-dev libXft-dev ncursesw-utils" ;;
 	9.30) DEPS="gdk-pixbuf2-dev xorg-proto Xorg-7.7-dev fontconfig-dev libXft-dev ncursesw-utils" ;;
 	9.26) DEPS="gdk-pixbuf2-dev xorg-proto Xorg-7.7-dev fontconfig-dev libXft-dev ncursesw-utils" ;;
 	9.22) DEPS="xorg-proto Xorg-7.7-dev fontconfig-dev libXft-dev ncursesw-utils" ;;
@@ -24,11 +27,12 @@ for a in $(find $SOURCE/$EXT-patches -name "*.patch-$RVER"); do
 done
 #	--enable-24-bit-color \
 
-CXXFLAGS="-std=gnu++11" LDFLAGS="-lm" ./configure \
+# CXXFLAGS="-std=gnu++11" LDFLAGS="-lm" ./configure \
+LDFLAGS="-lm" ./configure \
 	--prefix=/usr/local \
 	--localstatedir=/var \
 	--with-x \
-	--with-codesets=eu \
+	--without-codesets \
 	--disable-assert \
 	--disable-warnings \
 	--enable-256-color \
@@ -37,8 +41,6 @@ CXXFLAGS="-std=gnu++11" LDFLAGS="-lm" ./configure \
 	--enable-xft \
 	--enable-font-styles \
 	--disable-startup-notification \
-	--disable-pixbuf \
-	--enable-transparency \
 	--enable-fading \
 	--enable-rxvt-scroll \
 	--enable-next-scroll \
@@ -60,10 +62,7 @@ CXXFLAGS="-std=gnu++11" LDFLAGS="-lm" ./configure \
 	--enable-smart-resize \
 	--enable-text-blink \
 	--enable-pointer-blank \
-	--enable-utmp \
-	--enable-wtmp \
-	--enable-lastlog \
-	|| exit
+	$XP || exit
 
 . $MEDIR/phase-default-make.sh
 

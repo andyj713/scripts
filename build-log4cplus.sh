@@ -3,32 +3,24 @@
 ME=$(readlink -f "$0")
 MEDIR=${ME%/*}
 
-EXT=libdnet
+EXT=log4cplus
 
 . $MEDIR/phase-default-vars.sh
 . $MEDIR/phase-default-init.sh
-
-DEPS="libtool-dev autoconf automake"
-
 . $MEDIR/phase-default-deps.sh
-. $MEDIR/phase-cc-opts-no-flto.sh
+. $MEDIR/phase-cc-opts-flto.sh
 
-export LDFLAGS="-lm"
-
-#sh ./autogen.sh
+export CXXFLAGS="$CXXFLAGS -fexceptions"
 
 ./configure \
-	--disable-check \
+	--enable-lto \
+	--with-iconv \
+	--with-wchar_t-support \
 	|| exit
 
 . $MEDIR/phase-default-make.sh
 . $MEDIR/phase-make-install-dev.sh
 . $MEDIR/phase-default-move-dev.sh
-
-mv $TCZ-dev/usr/local/sbin $TCZ/usr/local
-mkdir -p $TCZ-dev/usr/local/share
-mv $TCZ-dev/usr/local/man $TCZ-dev/usr/local/share
-
 . $MEDIR/phase-default-strip.sh
 . $MEDIR/phase-default-set-perms.sh
 . $MEDIR/phase-default-squash-tcz.sh

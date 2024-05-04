@@ -11,27 +11,27 @@ EXT=apr-util
 DEPS="apr-dev openldap-dev gdbm-dev oracle-12.2-client libtool-dev expat2-dev sqlite3-dev unixODBC-dev"
 
 case $TCVER in
-        64-14 ) PGVER=15; SSLVER=1.1.1; MDBVER=10.6 ;;
-        32-14 ) PGVER=15; SSLVER=1.1.1; MDBVER=10.6 ;;
-        64-13 ) PGVER=14; SSLVER=1.1.1; MDBVER=10.6 ;;
-        32-13 ) PGVER=14; SSLVER=1.1.1; MDBVER=10.6 ;;
-        64-12 ) PGVER=13; SSLVER=1.1.1; MDBVER=10.5 ;;
-        32-12 ) PGVER=13; SSLVER=1.1.1; MDBVER=10.5 ;;
-        64-11 ) PGVER=12; SSLVER=1.1.1; MDBVER=10.4 ;;
-        32-11 ) PGVER=12; SSLVER=1.1.1; MDBVER=10.4 ;;
-        64-10 ) PGVER=12; SSLVER=1.1.1; MDBVER=10.4 ;;
-        32-10 ) PGVER=12; SSLVER=1.1.1; MDBVER=10.4 ;;
+        64-15 ) PGVER=16; SSLVER=""; MDBVER=11.2 ;;
+        32-15 ) PGVER=16; SSLVER=""; MDBVER=11.2 ;;
+        64-14 ) PGVER=15; SSLVER=""; MDBVER=11.2 ;;
+        32-14 ) PGVER=15; SSLVER=""; MDBVER=11.2 ;;
+        64-13 ) PGVER=14; SSLVER=-1.1.1; MDBVER=10.6 ;;
+        32-13 ) PGVER=14; SSLVER=-1.1.1; MDBVER=10.6 ;;
+        64-12 ) PGVER=13; SSLVER=-1.1.1; MDBVER=10.5 ;;
+        32-12 ) PGVER=13; SSLVER=-1.1.1; MDBVER=10.5 ;;
+        64-11 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ;;
+        32-11 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ;;
+        64-10 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ;;
+        32-10 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ;;
         * ) PGVER=11; SSLVER=""; MDBVER=10.1 ;;
 esac
-DEPS="$DEPS openssl-$SSLVER-dev postgresql-$PGVER-dev mariadb-$MDBVER-dev"
+DEPS="$DEPS openssl$SSLVER-dev postgresql-$PGVER-dev mariadb-$MDBVER-dev"
 
 . $MEDIR/phase-default-deps.sh
 . $MEDIR/phase-default-cc-opts.sh
 
 sed -i -e 's/lnnz11/lnnz12/g' configure
 sed -i -e 's/lnnz10/lnnz/g' configure
-
-test $PGDIR -lt 12 && patch -p1 -i $BASE/patches/apr-util-mariadb-10-3.patch
 
 #./buildconf --with-apr=$BUILD/apr-1.6.5
 

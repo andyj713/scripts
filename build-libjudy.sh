@@ -3,29 +3,31 @@
 ME=$(readlink -f "$0")
 MEDIR=${ME%/*}
 
-EXT=liblognorm
+EXT=libjudy
 
 . $MEDIR/phase-default-vars.sh
 . $MEDIR/phase-default-init.sh
 
-#DEPS="libestr-dev libfastjson-dev pcre21042-dev"
-DEPS="libestr-dev libfastjson-dev pcre-dev"
+DEPS=""
 
 . $MEDIR/phase-default-deps.sh
 . $MEDIR/phase-default-cc-opts.sh
 
-autoreconf -i
+#	--enable-64-bit \
+
 ./configure \
 	--enable-shared \
-	--enable-regexp \
+	--disable-static \
 	|| exit
 
 . $MEDIR/phase-default-make.sh
-. $MEDIR/phase-make-install-dev.sh
+. $MEDIR/phase-default-make-install.sh
 
-mkdir -p $TCZ/usr/local/lib
-mv $TCZ-dev/usr/local/lib/*.so* $TCZ/usr/local/lib
-mv $TCZ-dev/usr/local/bin $TCZ/usr/local
+mkdir -p $TCZ-doc/usr/local
+mv $TCZ/usr/local/share $TCZ-doc/usr/local
+
+mkdir -p $TCZ-dev/usr/local
+mv $TCZ/usr/local/include $TCZ-dev/usr/local
 
 . $MEDIR/phase-default-strip.sh
 . $MEDIR/phase-default-set-perms.sh

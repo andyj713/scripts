@@ -23,11 +23,16 @@ fi
 
 sed -i -e '/STD_CWARNINGS="$STD_CWARNINGS -Wall -Werror -fno-strict-aliasing"/s/ -Werror//' configure
 
+DBPATH=/opt/dhcp/db
 ./configure \
 	--prefix=/usr/local \
 	--sysconfdir=/usr/local/etc \
 	--libdir=/usr/local/lib \
 	--localstatedir=/var \
+	--with-srv-lease-file=$DBPATH/dhcpd.leases \
+	--with-srv6-lease-file=$DBPATH/dhcpd6.leases \
+	--with-cli-lease-file=$DBPATH/dhclient.leases \
+	--with-cli6-lease-file=$DBPATH/dhclient6.leases \
 	--with-randomdev=/dev/urandom \
 	|| exit
 
@@ -35,7 +40,13 @@ sed -i -e '/STD_CWARNINGS="$STD_CWARNINGS -Wall -Werror -fno-strict-aliasing"/s/
 . $MEDIR/phase-default-make.sh
 . $MEDIR/phase-make-install-dev.sh
 
-mkdir -p $TCZ/usr/local
+mkdir -p $TCZ/usr/local/tce.installed
+
+cat << EOF > $TCZ/usr/local/tce.installed/dhcp
+#!/bin/sh
+[ -e $DBPATH ] || mkdir -p $DBPATH
+ln -s $DBPATH /var/db
+EOF
 
 mv $TCZ-dev/usr/local/bin $TCZ/usr/local
 mv $TCZ-dev/usr/local/sbin $TCZ/usr/local

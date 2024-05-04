@@ -8,7 +8,7 @@ ME=$(readlink -f "$0")
 MEDIR=${ME%/*}
 
 EXT=gvim
-VIMVERDIR=usr/local/share/vim/vim90
+VIMVERDIR=usr/local/share/vim/vim91
 
 . $MEDIR/phase-default-vars.sh
 . $MEDIR/phase-default-init.sh

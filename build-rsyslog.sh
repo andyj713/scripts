@@ -8,21 +8,23 @@ EXT=rsyslog
 . $MEDIR/phase-default-vars.sh
 . $MEDIR/phase-default-init.sh
 
-DEPS="jemalloc-dev pcre-dev net-snmp-dev curl-dev libgcrypt-dev autoconf automake
+DEPS="jemalloc-dev net-snmp-dev curl-dev libgcrypt-dev autoconf automake
  iproute2 libestr-dev libfastjson-dev liblognorm-dev liblogging-dev libnet-dev libnet"
 
 case $TCVER in
-        64-14 ) PGVER=15; SSLVER=-1.1.1; MDBVER=10.6 ;;
-        32-14 ) PGVER=15; SSLVER=-1.1.1; MDBVER=10.6 ;;
-        64-13 ) PGVER=14; SSLVER=-1.1.1; MDBVER=10.6 ;;
-        32-13 ) PGVER=14; SSLVER=-1.1.1; MDBVER=10.6 ;;
-        64-12 ) PGVER=13; SSLVER=-1.1.1; MDBVER=10.5 ;;
-        32-12 ) PGVER=13; SSLVER=-1.1.1; MDBVER=10.5 ;;
-        64-11 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ;;
-        32-11 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ;;
-        64-10 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ;;
-        32-10 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ;;
-        * ) PGVER=11; SSLVER=""; MDBVER=10.1 ;;
+        64-15 ) PGVER=16; SSLVER=""; MDBVER=11.2 ; DEPS="$DEPS pcre21042-dev gnutls35-dev" ;;
+        32-15 ) PGVER=16; SSLVER=""; MDBVER=11.2 ; DEPS="$DEPS pcre21042-dev gnutls3.6-dev" ;;
+        64-14 ) PGVER=15; SSLVER=""; MDBVER=11.2 ; DEPS="$DEPS pcre21042-dev gnutls35-dev" ;;
+        32-14 ) PGVER=15; SSLVER=""; MDBVER=11.2 ; DEPS="$DEPS pcre21042-dev gnutls3.6-dev" ;;
+        64-13 ) PGVER=14; SSLVER=-1.1.1; MDBVER=10.6 ; DEPS="$DEPS pcre-dev" ;;
+        32-13 ) PGVER=14; SSLVER=-1.1.1; MDBVER=10.6 ; DEPS="$DEPS pcre-dev" ;;
+        64-12 ) PGVER=13; SSLVER=-1.1.1; MDBVER=10.5 ; DEPS="$DEPS pcre-dev" ;;
+        32-12 ) PGVER=13; SSLVER=-1.1.1; MDBVER=10.5 ; DEPS="$DEPS pcre-dev" ;;
+        64-11 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ; DEPS="$DEPS pcre-dev" ;;
+        32-11 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ; DEPS="$DEPS pcre-dev" ;;
+        64-10 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ; DEPS="$DEPS pcre-dev" ;;
+        32-10 ) PGVER=12; SSLVER=-1.1.1; MDBVER=10.4 ; DEPS="$DEPS pcre-dev" ;;
+        * ) PGVER=11; SSLVER=""; MDBVER=10.1 ; DEPS="$DEPS pcre-dev" ;;
 esac
 DEPS="$DEPS openssl$SSLVER-dev postgresql-$PGVER-dev mariadb-$MDBVER-dev"
 
@@ -32,6 +34,8 @@ DEPS="$DEPS openssl$SSLVER-dev postgresql-$PGVER-dev mariadb-$MDBVER-dev"
 echo $PATH | grep -q pgsql || export PATH=$PATH:/usr/local/mysql/bin:/usr/local/pgsql$PGVER/bin:/usr/local/oracle
 
 sed -i -e 's#"/etc/rsyslog.conf"#"/usr/local/etc/rsyslog.conf"#' tools/rsyslogd.c
+
+export PKG_CONFIG_PATH="/usr/local/pgsql$PGVER/lib/pkgconfig"
 
 autoreconf --verbose --force --install || exit 1
 

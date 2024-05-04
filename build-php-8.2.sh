@@ -18,8 +18,10 @@ DEPS="automake apache2.4 apache2.4-dev apr-dev apr-util-dev
  oracle-12.2-client acl-dev"
 
 case $TCVER in
-        64-14 ) PGVER=15; DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev ncursesw-utils pcre21032-dev icu70-dev" ;;
-        32-14 ) PGVER=15; DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev pcre2-dev icu70-dev" ;;
+        64-15 ) PGVER=16; DEPS="$DEPS openssl-dev postgresql-$PGVER-dev libvpx18-dev ncursesw-utils pcre21042-dev icu74-dev" ;;
+        32-15 ) PGVER=16; DEPS="$DEPS openssl-dev postgresql-$PGVER-dev libvpx18-dev pcre21042-dev icu70-dev" ;;
+        64-14 ) PGVER=16; DEPS="$DEPS openssl-dev postgresql-$PGVER-dev libvpx18-dev ncursesw-utils pcre21042-dev icu74-dev" ;;
+        32-14 ) PGVER=16; DEPS="$DEPS openssl-dev postgresql-$PGVER-dev libvpx18-dev pcre2-dev icu70-dev" ;;
         64-13 ) PGVER=14; DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev ncursesw-utils pcre21032-dev icu67-dev" ;;
         32-13 ) PGVER=14; DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev pcre2-dev icu62-dev" ;;
         64-12 ) PGVER=13; DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev ncursesw-utils pcre21032-dev icu67-dev" ;;
@@ -387,7 +389,8 @@ EOF
 chmod 775 $TCZ-fpm/usr/local/etc/init.d/php-fpm
 
 mkdir -p $TCZ-mod/usr/local/etc/httpd/original/conf.d
-mv $TCZ-dev/usr/local/etc/httpd/httpd.conf $TCZ-mod/usr/local/etc/httpd/original
+#mv $TCZ-dev/usr/local/etc/httpd/httpd.conf $TCZ-mod/usr/local/etc/httpd/original
+rm $TCZ-dev/usr/local/etc/httpd/httpd.conf
 cp $BASE/contrib/httpd-php8-mod.conf $TCZ-mod/usr/local/etc/httpd/original/conf.d
 mv $TCZ-dev/usr/local/apache2 $TCZ-mod/usr/local
 mv $TCZ-mod/usr/local/apache2/modules/libphp.so $TCZ-mod/usr/local/apache2/modules/mod_php8.so

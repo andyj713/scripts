@@ -10,6 +10,8 @@ EXT=pgtclng
 
 DEPS="tcl8.6-dev"
 case $TCVER in
+        64-15 ) PGVER=16 ;;
+        32-15 ) PGVER=16 ;;
         64-14 ) PGVER=15 ;;
         32-14 ) PGVER=15 ;;
         64-13 ) PGVER=14 ;;

@@ -3,35 +3,38 @@
 ME=$(readlink -f "$0")
 MEDIR=${ME%/*}
 
-EXT=php-8.0
-PGVER=14
+EXT=php-8.3
+PGVER=15
 
 . $MEDIR/phase-default-vars.sh
 . $MEDIR/phase-default-init.sh
 
-DEPS="automake apache2.4 apache2.4-dev apr-dev apr-util-dev openldap-dev libxml2-dev libffi-dev
- net-snmp-dev libgd-dev curl-dev enchant2-dev libwebp1-dev libnet-dev
- gmp-dev aspell-dev cyrus-sasl-dev libxslt-dev libonig-dev
- libzip-dev libsodium-dev fontconfig-dev libtool-dev libtidy-dev
+DEPS="automake apache2.4 apache2.4-dev apr-dev apr-util-dev
+ openldap-dev libxml2-dev libffi-dev net-snmp-dev libgd-dev
+ curl-dev enchant2-dev libwebp1-dev libnet-dev gmp-dev
+ aspell-dev cyrus-sasl-dev libxslt-dev libonig-dev libzip-dev
+ libsodium-dev fontconfig-dev libtool-dev libtidy-dev
  ncursesw-dev perl5 unixODBC-dev tzdata sqlite3-dev gdbm-dev
- oracle-12.2-client"
+ oracle-12.2-client acl-dev"
 
 case $TCVER in
-        64-14 ) PGVER=15; DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev ncursesw-utils pcre21032-dev icu70-dev" ;;
-        32-14 ) PGVER=15; DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev pcre2-dev icu70-dev" ;;
+        64-15 ) PGVER=16; DEPS="$DEPS openssl-dev postgresql-$PGVER-dev libvpx18-dev ncursesw-utils pcre21042-dev icu74-dev" ;;
+        32-15 ) PGVER=16; DEPS="$DEPS openssl-dev postgresql-$PGVER-dev libvpx18-dev pcre21042-dev icu70-dev" ;;
+        64-14 ) PGVER=16; DEPS="$DEPS openssl-dev postgresql-$PGVER-dev libvpx18-dev ncursesw-utils pcre21042-dev icu74-dev" ;;
+        32-14 ) PGVER=16; DEPS="$DEPS openssl-dev postgresql-$PGVER-dev libvpx18-dev pcre2-dev icu70-dev" ;;
         64-13 ) PGVER=14; DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev ncursesw-utils pcre21032-dev icu67-dev" ;;
         32-13 ) PGVER=14; DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev pcre2-dev icu62-dev" ;;
         64-12 ) PGVER=13; DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev ncursesw-utils pcre21032-dev icu67-dev" ;;
         32-12 ) PGVER=13; DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev pcre2-dev icu62-dev" ;;
         64-11 ) DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev ncursesw-utils pcre21032-dev icu61-dev" ;;
         32-11 ) DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx18-dev pcre2-dev icu62-dev" ;;
-        64-10 ) DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx17-dev ncursesw-utils pcre21032-dev icu61-dev" ;; 
+        64-10 ) DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx17-dev ncursesw-utils pcre21032-dev icu61-dev" ;;
         32-10 ) DEPS="$DEPS openssl-1.1.1-dev postgresql-$PGVER-dev libvpx17-dev pcre2-dev icu62-dev" ;;
 	64-9 ) PGVER=11; DEPS="$DEPS openssl-dev postgresql-$PGVER-dev libvpx-dev pcre2-dev icu61-dev" ;;
         * ) DEPS="$DEPS openssl-dev libvpx-dev pcre2-dev icu-dev" ;;
 esac
 
-WITH_PIC="--with-pic=default"                 
+WITH_PIC="--with-pic=default"
 
 . $MEDIR/phase-default-deps.sh
 . $MEDIR/phase-cc-opts-no-flto-excp.sh
@@ -81,6 +84,17 @@ sed -i '/if test "\$PHP_LIBXML" != "no"; then/{N;N;s/ext_shared=no/ext_shared=ye
 # fix to make filter a shared extension
 #sed -i 's/if test -n "\$PHP_VERSION"; then/if test -z "$PHP_VERSION"; then/' configure
 
+# Oracle and openldap have name conflicts in their header files
+# Compile with OCI first, then make a second pass adding LDAP
+
+# PEAR installer has too many bugs
+#	--with-pear=shared,/usr/local/lib/php/pear \
+#	--without-pear \
+#	--with-jpeg \
+#	--with-webp \
+#	--with-xpm=no \
+#	--with-freetype \
+
 EXTENSION_DIR=/usr/local/lib/php/extensions ./configure \
 	--prefix=/usr/local \
 	--sysconfdir=/usr/local/etc \
@@ -93,10 +107,10 @@ EXTENSION_DIR=/usr/local/lib/php/extensions ./configure \
 	--enable-cgi \
 	--enable-cli \
 	--enable-fpm \
+	--with-fpm-acl \
 	--enable-phpdbg \
-	--enable-phpdbg-webhelper=shared \
 	--enable-phar=shared \
-	--without-pear \
+	--with-pear=shared,/usr/local/lib/php/pear \
 	--enable-dmalloc=shared \
 	--enable-libgcc \
 	--with-system-ciphers \
@@ -118,10 +132,6 @@ EXTENSION_DIR=/usr/local/lib/php/extensions ./configure \
 	--with-ffi=shared \
 	--enable-fileinfo=shared \
 	--enable-filter=shared \
-	--with-freetype \
-	--with-jpeg \
-	--with-webp \
-	--with-xpm=no \
 	--enable-ftp=shared \
 	--enable-gd=shared \
 	--with-external-gd \
@@ -138,13 +148,13 @@ EXTENSION_DIR=/usr/local/lib/php/extensions ./configure \
 	--with-mysqli=shared,mysqlnd \
 	--with-pdo-mysql=shared,mysqlnd \
 	--with-mysql-sock=/var/run/mysql.sock \
-	--with-oci8=shared,instantclient,/usr/local/oracle \
-	--with-pdo-oci=shared,instantclient,/usr/local/oracle \
 	--enable-opcache=shared \
 	--with-openssl=shared \
 	--enable-pcntl=shared \
 	--with-external-pcre \
 	--with-pcre-jit \
+	--with-oci8=shared,instantclient,/usr/local/oracle \
+	--with-pdo-oci=shared,instantclient,/usr/local/oracle \
 	--with-unixODBC=shared \
 	--with-pdo-odbc=shared,unixODBC \
 	--with-pgsql=shared,/usr/local/pgsql$PGVER \
@@ -183,10 +193,20 @@ sed -i '/^#define CONFIGURE_COMMAND/c\#define CONFIGURE_COMMAND " ./configure --
 
 . $MEDIR/phase-default-make.sh
 
+# fix module order for make test
+sed -i '/^PHP_MODULES =/s# \$(phplibdir)/mysqlnd.la##' Makefile
+sed -i '/^PHP_MODULES =/s# \$(phplibdir)/zlib.la # $(phplibdir)/zlib.la $(phplibdir)/mysqlnd.la #' Makefile
+
 # make install will complain and die if a copy of the current httpd.conf
 # file isn't in the install tree in the right place
 mkdir -p $TCZ-dev/usr/local/etc/httpd
 cp $BASE/contrib/httpd.conf $TCZ-dev/usr/local/etc/httpd
+
+# pear requires xml and phar to install so make sure module gets loaded
+sed -i '/^PEAR_INSTALL_FLAGS/s#$# -d extension_dir=$(top_builddir)/modules/ -d extension=libxml.so -d extension=xml.so -d extension=phar.so#' Makefile
+
+# fix typo in pear install file bug #81653
+sed -i '9347s/-_/->_/' pear/install-pear-nozlib.phar
 
 make install INSTALL_ROOT=$TCZ-dev
 
@@ -200,16 +220,11 @@ sudo cp $TCZ-dev/usr/local/bin/php* /usr/local/bin
 cd ext/ldap
 /usr/local/bin/phpize
 ./configure --with-ldap=shared --with-ldap-sasl
-make
-sudo make install INSTALL_ROOT=$TCZ-dev
+make install INSTALL_ROOT=$TCZ-dev
 cd ../..
 cp ext/ldap/modules/* modules
 
 sudo rm -f /usr/local/lib/php /usr/local/include/php /usr/local/bin/php*
-
-# fix module order for make test
-sed -i '/^PHP_MODULES =/s# \$(phplibdir)/mysqlnd.la##' Makefile
-sed -i '/^PHP_MODULES =/s# \$(phplibdir)/zlib.la # $(phplibdir)/zlib.la $(phplibdir)/mysqlnd.la $(phplibdir)/oci8.la $(phplibdir)/pdo_oci.la #' Makefile
 
 rm -rf $TCZ-dev/var
 rm -rf $TCZ-dev/.[a-z]*
@@ -375,7 +390,8 @@ EOF
 chmod 775 $TCZ-fpm/usr/local/etc/init.d/php-fpm
 
 mkdir -p $TCZ-mod/usr/local/etc/httpd/original/conf.d
-mv $TCZ-dev/usr/local/etc/httpd/httpd.conf $TCZ-mod/usr/local/etc/httpd/original
+#mv $TCZ-dev/usr/local/etc/httpd/httpd.conf $TCZ-mod/usr/local/etc/httpd/original
+rm $TCZ-dev/usr/local/etc/httpd/httpd.conf
 cp $BASE/contrib/httpd-php8-mod.conf $TCZ-mod/usr/local/etc/httpd/original/conf.d
 mv $TCZ-dev/usr/local/apache2 $TCZ-mod/usr/local
 mv $TCZ-mod/usr/local/apache2/modules/libphp.so $TCZ-mod/usr/local/apache2/modules/mod_php8.so

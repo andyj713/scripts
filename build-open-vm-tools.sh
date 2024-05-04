@@ -10,25 +10,26 @@ EXT=open-vm-tools
 
 DEPS="glibc_apps libtool-dev procps-ng-dev
  glib2-dev gtkmm-dev gtk3-dev glibmm-dev gdk-pixbuf2-dev
- Xorg-7.7-3d-dev libSM-dev libXau-dev libdnet-dev
- pcre-dev"
+ Xorg-7.7-3d-dev libSM-dev libXau-dev libdnet-dev"
 
 # DEPS needed for deploypkg and pam: linux-pam-dev libmspack-dev
 
 USETIRPC=" --without-tirpc"
 
 case $TCVER in
-	64-14 ) DEPS="$DEPS fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
-	32-14 ) DEPS="$DEPS fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
-	64-13 ) DEPS="$DEPS fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
-	32-13 ) DEPS="$DEPS fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
-	64-12 ) DEPS="$DEPS fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
-	32-12 ) DEPS="$DEPS fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
-	64-11 ) DEPS="$DEPS fuse-dev libtirpc-dev" ; USETIRPC=" --with-tirpc" ;;
-	32-11 ) DEPS="$DEPS fuse-dev" ;;
-	64-10 ) DEPS="$DEPS fuse" ;;  
-	32-10 ) DEPS="$DEPS fuse fribidi-dev" ;;
-        * ) DEPS="$DEPS libtirpc-dev fuse-dev" ; USETIRPC=" --with-tirpc" ;;
+	64-15 ) DEPS="$DEPS pcre21042-dev fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
+	32-15 ) DEPS="$DEPS pcre21042-dev fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
+	64-14 ) DEPS="$DEPS pcre-dev fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
+	32-14 ) DEPS="$DEPS pcre-dev fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
+	64-13 ) DEPS="$DEPS pcre-dev fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
+	32-13 ) DEPS="$DEPS pcre-dev fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
+	64-12 ) DEPS="$DEPS pcre-dev fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
+	32-12 ) DEPS="$DEPS pcre-dev fuse-dev libtirpc-dev rpcsvc-proto" ; USETIRPC=" --with-tirpc" ;;
+	64-11 ) DEPS="$DEPS pcre-dev fuse-dev libtirpc-dev" ; USETIRPC=" --with-tirpc" ;;
+	32-11 ) DEPS="$DEPS pcre-dev fuse-dev" ;;
+	64-10 ) DEPS="$DEPS pcre-dev fuse" ;;  
+	32-10 ) DEPS="$DEPS pcre-dev fuse fribidi-dev" ;;
+        * ) DEPS="$DEPS libtirpc-dev pcre-dev fuse-dev" ; USETIRPC=" --with-tirpc" ;;
 esac                          
 
 . $MEDIR/phase-default-deps.sh

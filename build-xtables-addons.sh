@@ -12,6 +12,8 @@ EXT=xtables-addons-$KVER
 DEPS="bash bc tcl8.6 glibc_apps iptables-dev"
 
 case $TCVER in
+	64-15 ) DEPS="$DEPS ipv6-netfilter-KERNEL" ;;
+	32-15 ) DEPS="$DEPS ipv6-netfilter-KERNEL" ;;
 	64-14 ) DEPS="$DEPS ipv6-netfilter-KERNEL" ;;
 	32-14 ) DEPS="$DEPS ipv6-netfilter-KERNEL" ;;
 	64-13 ) DEPS="$DEPS ipv6-netfilter-KERNEL" ;;

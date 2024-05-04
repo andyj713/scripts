@@ -11,8 +11,10 @@ EXT=cyrus-sasl
 DEPS="openldap-dev gdbm-dev sqlite3-dev automake libtool-dev groff"
 
 case $TCVER in
-        64-14 ) PGVER=15; SSLVER=-1.1.1; MDBVER=10.6 ;;
-        32-14 ) PGVER=15; SSLVER=-1.1.1; MDBVER=10.6 ;;
+        64-15 ) PGVER=16; SSLVER=""; MDBVER=11.2 ;;
+        32-15 ) PGVER=16; SSLVER=""; MDBVER=11.2 ;;
+        64-14 ) PGVER=15; SSLVER=""; MDBVER=11.2 ;;
+        32-14 ) PGVER=15; SSLVER=""; MDBVER=11.2 ;;
         64-13 ) PGVER=14; SSLVER=-1.1.1; MDBVER=10.6 ;;
         32-13 ) PGVER=14; SSLVER=-1.1.1; MDBVER=10.6 ;;
         64-12 ) PGVER=13; SSLVER=-1.1.1; MDBVER=10.5 ;;
